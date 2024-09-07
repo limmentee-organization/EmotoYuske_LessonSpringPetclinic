@@ -1,0 +1,30 @@
+<html>
+
+<body>
+	<form>
+		<!--	  th:fragmentでinputの定義をしている。定義したものは別の個所でth:replace等で使用する-->
+		<th:block th:fragment="input (label, name, type)">
+			<!--		th:withで変数を定義して値を代入する。	th:classで動的なCSSを設定する。（HTMLのclassを上書きする）-->
+			<div th:with="valid=${!#fields.hasErrors(name)}" th:class="${'form-group' + (valid ? '' : ' has-error')}"
+				class="form-group">
+				<label class="col-sm-2 control-label" th:text="${label}">Label</label>
+				<div class="col-sm-10">
+					<!--			th:switchでtypeが「txet」か「date」で分岐する-->
+					<div th:switch="${type}">
+						<input th:case="'text'" class="form-control" type="text" th:field="*{__${name}__}" />
+						<input th:case="'date'" class="form-control" type="date" th:field="*{__${name}__}" />
+					</div>
+					<!--            th:ifでvalidがtrueの場合タグの内部のタグが実行される-->
+					<span th:if="${valid}" class="fa fa-ok form-control-feedback" aria-hidden="true"></span>
+					<!--            th:ifでvalidがfalseの場合タグの内部のタグが実行される-->
+					<th:block th:if="${!valid}">
+						<span class="fa fa-remove form-control-feedback" aria-hidden="true"></span>
+						<span class="help-inline" th:errors="*{__${name}__}">Error</span>
+					</th:block>
+				</div>
+			</div>
+		</th:block>
+	</form>
+</body>
+
+</html>

@@ -1,0 +1,27 @@
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'owners')}">
+
+<body>
+
+	<h2>Owner</h2>
+	<!--  th:objectでownerクラスとModelをバインドする-->
+	<form th:object="${owner}" class="form-horizontal" id="add-owner-form" method="post">
+		<div class="form-group has-feedback">
+			<!--			inputFieldでfrafments化した部品をth:replaceで使用する-->
+			<input th:replace="~{fragments/inputField :: input ('First Name', 'firstName', 'text')}" />
+			<input th:replace="~{fragments/inputField :: input ('Last Name', 'lastName', 'text')}" />
+			<input th:replace="~{fragments/inputField :: input ('Address', 'address', 'text')}" />
+			<input th:replace="~{fragments/inputField :: input ('City', 'city', 'text')}" />
+			<input th:replace="~{fragments/inputField :: input ('Telephone', 'telephone', 'text')}" />
+		</div>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+<!--				th:withで変数を定義している。ownerがnewの場合AddOwnerがボタンに表示、それ以外の場合はUpdateOwnerが表示される-->
+				<button th:with="text=${owner['new']} ? 'Add Owner' : 'Update Owner'" class="btn btn-primary"
+					type="submit" th:text="${text}">Add
+					Owner</button>
+			</div>
+		</div>
+	</form>
+</body>
+
+</html>
